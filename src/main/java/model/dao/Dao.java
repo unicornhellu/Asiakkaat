@@ -62,7 +62,7 @@ public class Dao {
 
 	public ArrayList<Asiakas> getAllItems() {
 		ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
-		sql = "SELECT * FROM asiakkaat ORDER BY asiakas_id DESC"; //Suurin id tulee ensimmäisenä
+		sql = "SELECT * FROM asiakkaat ORDER BY asiakas_id ASC"; //Suurin id tulee ensimmäisenä
 		try {
 			con = yhdista();
 			if (con != null) { // jos yhteys onnistui
@@ -89,7 +89,7 @@ public class Dao {
 	}
 	public ArrayList<Asiakas> getAllItems(String searchStr) { //Metodeja voi kuormittaa, kunhan parametreiss䠥roja
 		ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
-		sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ? ORDER BY asiakas_id DESC";
+		sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ? ORDER BY asiakas_id ASC";
 		try {
 			con = yhdista();
 			if (con != null) { // jos yhteys onnistui
