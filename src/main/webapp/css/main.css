@@ -1,16 +1,43 @@
+@charset "ISO-8859-1";
 table {
-  width: 60%;
-  border-collapse: collapse;
-  
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;  
+  width: 70%;
 }
-th, td {
-  padding: 5px;
-  border: 1px solid;
-  border-color: lightgrey;
+
+table td, table th {
+  border: 1px solid #ddd;
+  padding: 8px;  
+}
+
+table tbody tr:nth-child(even){background-color: #f2f2f2;}
+
+table tbody tr:hover {background-color: #ddd;}
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
   text-align: left;
-}
-th {
-  background-color: #04AA6D;
+  background-color: #4CAF50;
   color: white;
 }
-tr:nth-child(even) {background-color: #f2f2f2;}
+
+.poista{
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;	
+}
+
+.oikealle{
+	text-align: right;	
+}
+
+#uusiAsiakas, #takaisin{
+	color: white;	
+	cursor: pointer;	
+}
+
+#linkki{
+	color: white;	
+	text-decoration: none;
+}

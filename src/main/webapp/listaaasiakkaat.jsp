@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -10,10 +10,13 @@
 </head>
 <body>
 <table id="listaus">
-	<thead>		
+	<thead>	
 		<tr>
-			<th colspan="2" style="text-align: right">Hakusana:</th>
-			<th><input type="text" id="hakusana"></th>
+			<th colspan="5" class="oikealle"><a id="linkki" href="lisaaasiakas.jsp">Lisää uusi asiakas</a>
+		</tr>	
+		<tr>
+			<th>Hakusana:</th>
+			<th colspan="3"><input type="text" id="hakusana"></th>
 			<th><input type="button" value="Hae" id="hakunappi" onclick="haeAsiakkaat()"></th>
 		</tr>	
 		<tr>
@@ -21,7 +24,7 @@
 			<th>Sukunimi</th>
 			<th>Puhelin</th>
 			<th>Sposti</th>
-			
+			<th></th>
 		</tr>
 	</thead>
 	<tbody id="tbody">
