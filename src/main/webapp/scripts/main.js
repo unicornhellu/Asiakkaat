@@ -29,7 +29,8 @@ function printItems(respObjList){
     	htmlStr+="<td>"+item.sukunimi+"</td>";
     	htmlStr+="<td>"+item.puhelin+"</td>";
     	htmlStr+="<td>"+item.sposti+"</td>";
-		htmlStr+="<td>&nbsp;</td>";      	
+		//htmlStr+="<td>"+item.asiakas_id+"</td>";  
+		htmlStr+="<td><span class='poista' onclick=varmistaPoisto("+item.asiakas_id+",'"+item.etunimi+"')>Poista</span></td>"; //encodeURI() muutetaan erikoismerkit, välilyönnit jne. UTF-8 merkeiksi. 	
     	htmlStr+="</tr>";    	
 	}	
 	document.getElementById("tbody").innerHTML = htmlStr;	
@@ -112,3 +113,30 @@ function lisaaTiedot(){
    	})
    	.catch(errorText => console.error("Fetch failed: " + errorText));
 }
+
+function varmistaPoisto(asiakas_id, etunimi){
+	if(confirm("Poista asiakas " + etunimi + "?")){ 
+		poistaAsiakas(asiakas_id, etunimi);
+	}
+}
+
+//Poistetaan auto kutsumalla backin DELETE-metodia ja välittämällä sille poistettavan auton id
+function poistaAsiakas(asiakas_id, etunimi){
+	let url = "asiakkaat?asiakas_id=" + asiakas_id;    
+    let requestOptions = {
+        method: "DELETE"             
+    };    
+    fetch(url, requestOptions)
+    .then(response => response.json())//Muutetaan vastausteksti JSON-objektiksi
+   	.then(responseObj => {	
+   		//console.log(responseObj);
+   		if(responseObj.response==0){
+			alert("Asiakkaan poisto epäonnistui.");	        	
+        }else if(responseObj.response==1){ 
+			document.getElementById("rivi_"+asiakas_id).style.backgroundColor="red";
+			alert("Asiakkaan " + etunimi + " poisto onnistui."); //decodeURI() muutetaan enkoodatut merkit takaisin normaaliksi kirjoitukseksi
+			haeAsiakkaat();        	
+		}
+   	})
+   	.catch(errorText => console.error("Fetch failed: " + errorText));
+}	
