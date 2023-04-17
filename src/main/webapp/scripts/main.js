@@ -30,8 +30,8 @@ function printItems(respObjList){
     	htmlStr+="<td>"+item.puhelin+"</td>";
     	htmlStr+="<td>"+item.sposti+"</td>";
 		//htmlStr+="<td>"+item.asiakas_id+"</td>";  
-		htmlStr+="<td><span class='poista' onclick=varmistaPoisto("+item.asiakas_id+",'"+item.etunimi+"')>Poista</span></td>"; //encodeURI() muutetaan erikoismerkit, välilyönnit jne. UTF-8 merkeiksi. 	
-    	htmlStr+="</tr>";    	
+    	htmlStr+="<td><span class='poista' onclick=varmistaPoisto("+item.asiakas_id+",'"+encodeURI(item.etunimi + " " + item.sukunimi)+"')>Poista</span></td>"; //encodeURI() muutetaan erikoismerkit, välilyönnit jne. UTF-8 merkeiksi.	
+		htmlStr+="</tr>";    	
 	}	
 	document.getElementById("tbody").innerHTML = htmlStr;	
 }
@@ -84,7 +84,8 @@ function tutkiTiedot() {
 //Funktio XSS-hyökkäysten estämiseksi (Cross-site scripting)
 function siivoa(teksti){
 	teksti=teksti.replace(/</g, "");//&lt;
-	teksti=teksti.replace(/>/g, "");//&gt;	
+	teksti=teksti.replace(/>/g, "");//&gt;
+	teksti=teksti.replace(/;/g, "");//&#59;	
 	teksti=teksti.replace(/'/g, "''");//&apos;	
 	return teksti;
 }
@@ -96,7 +97,7 @@ function lisaaTiedot(){
 	let url = "asiakkaat";    
     let requestOptions = {
         method: "POST", //Lisätään asiakas
-        headers: { "Content-Type": "application/json" },  
+        headers: { "Content-Type": "application/json; charset=UTF-8" },  
     	body: formData
     };    
     fetch(url, requestOptions)
@@ -114,14 +115,14 @@ function lisaaTiedot(){
    	.catch(errorText => console.error("Fetch failed: " + errorText));
 }
 
-function varmistaPoisto(asiakas_id, etunimi){
-	if(confirm("Poista asiakas " + etunimi + "?")){ 
-		poistaAsiakas(asiakas_id, etunimi);
+function varmistaPoisto(asiakas_id, nimi){
+	if(confirm("Poista asiakas " + decodeURI(nimi) +"?")){ //decodeURI() muutetaan enkoodatut merkit takaisin normaaliksi kirjoitukseksi
+		poistaAsiakas(asiakas_id, nimi);
 	}
 }
 
 //Poistetaan auto kutsumalla backin DELETE-metodia ja välittämällä sille poistettavan auton id
-function poistaAsiakas(asiakas_id, etunimi){
+function poistaAsiakas(asiakas_id, nimi){
 	let url = "asiakkaat?asiakas_id=" + asiakas_id;    
     let requestOptions = {
         method: "DELETE"             
@@ -134,7 +135,7 @@ function poistaAsiakas(asiakas_id, etunimi){
 			alert("Asiakkaan poisto epäonnistui.");	        	
         }else if(responseObj.response==1){ 
 			document.getElementById("rivi_"+asiakas_id).style.backgroundColor="red";
-			alert("Asiakkaan " + etunimi + " poisto onnistui."); //decodeURI() muutetaan enkoodatut merkit takaisin normaaliksi kirjoitukseksi
+			alert("Asiakkaan " + decodeURI(nimi) + " poisto onnistui."); //decodeURI() muutetaan enkoodatut merkit takaisin normaaliksi kirjoitukseksi
 			haeAsiakkaat();        	
 		}
    	})
