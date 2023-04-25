@@ -100,7 +100,7 @@ function paivitaTiedot(){
 	//console.log(formData);	
 	let url = "asiakkaat";    
     let requestOptions = {
-        method: "PUT", //Muutetaan auto
+        method: "PUT", //Muutetaan asiakas
         headers: { "Content-Type": "application/json; charset=UTF-8" },  
     	body: formData
     };    
